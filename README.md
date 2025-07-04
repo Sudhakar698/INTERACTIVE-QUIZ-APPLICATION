@@ -16,14 +16,14 @@ MENTOR: NEELA SANTOSH
 
 #OUTPUT
 
-![Image](https://github.com/user-attachments/assets/ef3ad7cf-6b87-4f30-9f39-7a69a378a4b7)
+![Image](https://github.com/user-attachments/assets/c86f2dbb-ecfd-41ba-839c-6e1f82576f19)
 
-![Image](https://github.com/user-attachments/assets/effb7ebb-c325-443b-aba6-dc07f1ebcffb)
+![Image](https://github.com/user-attachments/assets/43fc9144-acb6-4b44-9aed-a5a3b63e85ea)
 
-![Image](https://github.com/user-attachments/assets/32451010-92d0-4d65-b875-66475b98d5cc)
+![Image](https://github.com/user-attachments/assets/d87cf860-dfba-4838-a63f-e8e439337e28)
 
-![Image](https://github.com/user-attachments/assets/21476f39-ec76-40c3-9440-12c58fa9cfc4)
+![Image](https://github.com/user-attachments/assets/b2bab25e-664d-4b89-a0de-57cc05b2a8f4)
 
-![Image](https://github.com/user-attachments/assets/82eead92-ad5f-4670-95be-276fecc3d06d)
+![Image](https://github.com/user-attachments/assets/d64005a6-0db5-4d6b-88e0-0895e93ae1ba)
 
-![Image](https://github.com/user-attachments/assets/681cf00f-b928-4784-84b5-a1404ac7c666)
+![Image](https://github.com/user-attachments/assets/7a1a355e-dc62-4ce7-9a7d-8f96bd4789a4)
