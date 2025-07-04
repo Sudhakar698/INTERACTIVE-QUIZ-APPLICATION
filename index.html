@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Interactive Quiz Application</title>
+<style>
+  body {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+  }
+  .quiz-container {
+    background: rgba(0, 0, 0, 0.65);
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    width: 420px;
+    max-width: 90vw;
+    padding: 24px 32px 32px;
+    text-align: center;
+  }
+  h1 {
+    margin-bottom: 24px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  #question {
+    font-size: 1.25rem;
+    margin-bottom: 20px;
+  }
+  .answers {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    text-align: left;
+  }
+  .answer-btn {
+    background: #5a4da7;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #eaeafa;
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+    user-select: none;
+    text-align: center;
+  }
+  .answer-btn:hover:not(:disabled) {
+    background: #7f74cc;
+  }
+  .answer-btn.correct {
+    background-color: #4caf50 !important;
+    color: #fff;
+    font-weight: 700;
+  }
+  .answer-btn.wrong {
+    background-color: #e74c3c !important;
+    color: #fff;
+    font-weight: 700;
+  }
+  .answer-btn:disabled {
+    cursor: default;
+    opacity: 0.8;
+  }
+  #next-btn {
+    margin-top: 28px;
+    background: #ff6f61;
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 12px 24px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    user-select: none;
+  }
+  #next-btn:hover {
+    background: #ff856f;
+  }
+  #next-btn:disabled {
+    background: #ff6f6150;
+    cursor: default;
+  }
+  #score-container {
+    font-size: 1.2rem;
+    margin-top: 18px;
+    font-weight: 700;
+  }
+  #restart-btn {
+    margin-top: 24px;
+    background: #3498db;
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 12px 24px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  #restart-btn:hover {
+    background: #4aa3e0;
+  }
+</style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h1>Interactive Quiz</h1>
+    <div id="question">Question text</div>
+    <div class="answers" id="answers"></div>
+    <button id="next-btn" disabled>Next</button>
+    <div id="score-container" style="display:none;"></div>
+    <button id="restart-btn" style="display:none;">Restart Quiz</button>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        question: "What is the capital of France?",
+        answers: [
+          { text: "Berlin", correct: false },
+          { text: "Madrid", correct: false },
+          { text: "Paris", correct: true },
+          { text: "Rome", correct: false }
+        ]
+      },
+      {
+        question: "Which language runs in a web browser?",
+        answers: [
+          { text: "Java", correct: false },
+          { text: "C", correct: false },
+          { text: "Python", correct: false },
+          { text: "JavaScript", correct: true }
+        ]
+      },
+      {
+        question: "What does CSS stand for?",
+        answers: [
+          { text: "Central Style Sheets", correct: false },
+          { text: "Cascading Style Sheets", correct: true },
+          { text: "Cascading Simple Sheets", correct: false },
+          { text: "Cars SUVs Sailboats", correct: false }
+        ]
+      },
+      {
+        question: "Which company developed React?",
+        answers: [
+          { text: "Google", correct: false },
+          { text: "Facebook", correct: true },
+          { text: "Microsoft", correct: false },
+          { text: "Apple", correct: false }
+        ]
+      },
+      {
+        question: "What year was JavaScript created?",
+        answers: [
+          { text: "1996", correct: false },
+          { text: "1995", correct: true },
+          { text: "1994", correct: false },
+          { text: "2000", correct: false }
+        ]
+      }
+    ];
+
+    const questionEl = document.getElementById('question');
+    const answersEl = document.getElementById('answers');
+    const nextBtn = document.getElementById('next-btn');
+    const scoreContainer = document.getElementById('score-container');
+    const restartBtn = document.getElementById('restart-btn');
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+
+    function startQuiz() {
+      currentQuestionIndex = 0;
+      score = 0;
+      scoreContainer.style.display = 'none';
+      restartBtn.style.display = 'none';
+      nextBtn.disabled = true;
+      nextBtn.innerText = 'Next';
+      showQuestion();
+    }
+
+    function showQuestion() {
+      resetState();
+      const currentQuestion = quizData[currentQuestionIndex];
+      questionEl.innerText = ${currentQuestionIndex + 1}. ${currentQuestion.question};
+
+      currentQuestion.answers.forEach((answer, index) => {
+        const button = document.createElement('button');
+        button.innerText = answer.text;
+        button.classList.add('answer-btn');
+        if (answer.correct) {
+          button.dataset.correct = answer.correct;
+        }
+        button.addEventListener('click', selectAnswer);
+        answersEl.appendChild(button);
+      });
+    }
+
+    function resetState() {
+      nextBtn.disabled = true;
+      while (answersEl.firstChild) {
+        answersEl.removeChild(answersEl.firstChild);
+      }
+    }
+
+    function selectAnswer(e) {
+      const selectedBtn = e.target;
+      const isCorrect = selectedBtn.dataset.correct === 'true';
+
+      if (isCorrect) {
+        selectedBtn.classList.add('correct');
+        score++;
+      } else {
+        selectedBtn.classList.add('wrong');
+      }
+
+      Array.from(answersEl.children).forEach(button => {
+        button.disabled = true;
+        if (button.dataset.correct === 'true') {
+          button.classList.add('correct');
+        }
+      });
+      nextBtn.disabled = false;
+    }
+
+    nextBtn.addEventListener('click', () => {
+      currentQuestionIndex++;
+
+      if (currentQuestionIndex < quizData.length) {
+        showQuestion();
+      } else {
+        showScore();
+      }
+    });
+
+    restartBtn.addEventListener('click', () => {
+      startQuiz();
+    });
+
+    function showScore() {
+      resetState();
+      questionEl.innerText = Quiz Finished! Your score: ${score} / ${quizData.length};
+      scoreContainer.style.display = 'block';
+      scoreContainer.innerText = You got ${score} out of ${quizData.length} correct.;
+      nextBtn.style.display = 'none';
+      restartBtn.style.display = 'inline-block';
+    }
+
+    // Initialize quiz on page load
+    startQuiz();
+  </script>
+</body>
+</html>
